@@ -84,6 +84,52 @@ int vector_add(vector* v, int value)
 {
     if(v==NULL)return -1;
 
+    int i=vector_size(v);
+    if(vector_isfull(v))
+    {
+        vector* temp = (vector*) realloc(v, sizeof(vector) + (v->maxsize + 1) * sizeof(int));
+        v=temp;
+        v->maxsize=v->maxsize+1;
+        vector_set(v,i,value);
+        return 1;
+    }
+
+    return 0;
+
+}
+
+void vector_resize(vector** v)
+{
+    if(*v==NULL) return;
+
+    int i=vector_size(*v);
+
+    if(vector_isfull(*v))
+    {
+        vector* temp = (vector*) realloc(*v, sizeof(vector) + ((*v)->maxsize + 1) * sizeof(int));
+        *v=temp;
+        (*v)->maxsize=(*v)->maxsize+1;
+    
+
+    }
+}
+
+
+int vector_insert(vector* v, int value, int index)
+{
+    if(v==NULL)return -1;
+    int dim=vector_size(v);
+    if(vector_isfull(v)){
+        vector_resize(&v);
+        for(int j=dim; j>index; j--)
+        {
+         v->a[j]=v->a[j-1];
+        }
+    }
+
+    vector_set(v,index,value);
+
+    return 1;
 
 }
 

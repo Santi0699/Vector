@@ -77,15 +77,15 @@ t_elem_vector vector_get(vector* v, int index)
     return v->a[index];
 }
 
-int vector_set(vector* v, int index, t_elem_vector value) 
+void vector_set(vector* v, int index, t_elem_vector value) 
 {
-    if(v==NULL)return -1;
-    if(index >= v->maxsize)return -2;
-    if(index<0)return -3;
+ //   if(v==NULL)return -1;
+ //   if(index >= v->maxsize)return -2;
+ //   if(index<0)return -3;
 
     v->a[index]=value;
 
-    return 0;
+//    return 0;
 
 }
 

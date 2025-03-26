@@ -14,6 +14,10 @@ vector* vector_in_order(vector *v);
 void swap(int* a, int* b);
 void bubble_sort_v2(vector* v, int n);
 vector* vector_with_ocurrences(vector* v);
+int vector_get_value_first_position(vector* v, t_elem_vector value);
+void vector_kill_same_values(vector* v);
+vector* vector_convine(vector* v1, vector* v2);
+
 
 void print_int(T_Elem x) {
     fraction_print((Fraction*)&x);
@@ -60,10 +64,23 @@ int main ()
     pepinero=vector_with_ocurrences(pepon);
     puts("pepinero quedo asi:");
     vector_print2(pepinero);
+    int pos=vector_get_value_first_position(pepon,3);
+    printf("La posicion es: %d \n",pos);
+
+    vector* pepensio=vector_convine(vectorsito,vectorsin);
+    
+    puts("Asi quedo vectorsito: \n");
+    vector_print2(vectorsito);
+    puts("Asi quedo vectorsin: \n");
+    vector_print2(vectorsin);
+
+    puts("Asi quedo pepensio: \n");
+    vector_print2(pepensio);
 
     vector_free(vectorsito);
     vector_free(vectorsin);
     vector_free(pepin);
+    vector_free(pepinero);
     return 0;
 
 
@@ -279,5 +296,74 @@ vector* vector_with_ocurrences(vector* v)
         i += count; // Saltamos todas las ocurrencias de ese número
     }
     
+    return result;
+}
+
+//9
+int vector_get_value_first_position(vector* v, t_elem_vector value)
+{
+    int size= vector_size(v);
+    bubble_sort_v2(v,size);
+    int result=0;
+    int i=0;
+    int flag=0;
+
+    while(i<size && flag==0)
+    {
+        t_elem_vector temp=vector_get(v,i);
+        if(temp==value)
+        {
+            result=i;
+            flag=1;
+        }
+        i++;
+    }
+
+    return result;
+
+}
+
+//10
+void vector_kill_same_values(vector* v)
+{
+    if (v==NULL)return;
+    int size=vector_size(v);
+
+    int i = 0;
+    while (i < v->size - 1) {
+        t_elem_vector temp1=vector_get(v, i);
+        t_elem_vector temp2=vector_get(v, i+1);
+        if ( temp1 == temp2) {
+            vector_remove(v, i+1);  // Elimina el duplicado
+        } else {
+            i++;  // Avanza solo si no se eliminó un elemento
+        }
+    }
+
+}
+
+vector* vector_convine(vector* v1, vector* v2)
+{
+    vector* result=vector_init(0);
+    int size1=vector_size(v1);
+    int size2=vector_size(v2);
+
+    for(int i=0; i<size1;i++)
+    {
+        t_elem_vector temp1=vector_get(v1,i);
+        vector_add(result,temp1);
+    }
+
+    for(int j=0; j<size1;j++)
+    {
+        t_elem_vector temp2=vector_get(v2,j);
+        vector_add(result,temp2);
+    }
+
+    int size3=vector_size(result);
+
+    bubble_sort_v2(result,size3);
+    vector_kill_same_values(result);
+
     return result;
 }
